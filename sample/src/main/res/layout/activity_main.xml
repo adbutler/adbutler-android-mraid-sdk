@@ -1,0 +1,68 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/customeventbanner_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/app_name"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <Button
+            android:id="@+id/btnGetInterstitial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onGetInterstitialClick"
+            android:text="Get interstitial"
+            />
+
+        <Button
+            android:id="@+id/btnGetBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onGetBannerClick"
+            android:text="Get banner"
+            />
+
+        <Button
+            android:id="@+id/btnGetVASTVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onGetVASTClick"
+            android:text="Get VAST Video"
+            />
+
+
+        <FrameLayout android:id="@+id/adbutler_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <fragment
+                android:name="com.sparklit.adbutler.BannerView"
+                android:id="@+id/adbutler_fragment"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</ScrollView>

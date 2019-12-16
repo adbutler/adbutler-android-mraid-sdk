@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00E0E0E0"
+    android:backgroundTint="#00D1D1D1"
+    android:padding="0dp"
+    android:id="@+id/containerView"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnTopRight"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnGetBanner" />
+
+    <EditText
+        android:id="@+id/txtPublisherID"
+        android:layout_width="114dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtZoneID" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Publisher ID"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPublisherID"
+        app:layout_constraintStart_toEndOf="@+id/txtPublisherID"
+        app:layout_constraintTop_toBottomOf="@+id/txtZoneID" />
+
+    <EditText
+        android:id="@+id/txtZoneID"
+        android:layout_width="114dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAccountID" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Zone ID"
+        app:layout_constraintBottom_toBottomOf="@+id/txtZoneID"
+        app:layout_constraintStart_toEndOf="@+id/txtZoneID"
+        app:layout_constraintTop_toTopOf="@+id/txtZoneID" />
+
+    <EditText
+        android:id="@+id/txtAccountID"
+        android:layout_width="114dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Account ID"
+        app:layout_constraintBottom_toBottomOf="@+id/txtAccountID"
+        app:layout_constraintStart_toEndOf="@+id/txtAccountID"
+        app:layout_constraintTop_toTopOf="@+id/txtAccountID" />
+
+    <Button
+        android:id="@+id/btnGetVASTVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Get VAST Video"
+        android:onClick="onGetVASTVideoClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetInterstitial" />
+
+    <Button
+        android:id="@+id/btnDisplayInterstitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Display"
+        android:onClick="onDisplayInterstitialClick"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGetInterstitial"
+        app:layout_constraintStart_toEndOf="@+id/btnGetInterstitial"
+        app:layout_constraintTop_toTopOf="@+id/btnGetInterstitial" />
+
+    <Button
+        android:id="@+id/btnGetInterstitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Get Interstitial"
+        android:onClick="onGetInterstitialClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetBanner" />
+
+    <Button
+        android:id="@+id/btnGetBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onGetBannerClick"
+        android:text="Get Banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPublisherID"
+        tools:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="(VAST only)"
+        android:textColor="#5C636161"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+    <Button
+        android:id="@+id/btnTopLeft"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/btnTopCenter"
+        app:layout_constraintTop_toTopOf="@+id/btnGetBanner" />
+
+    <Button
+        android:id="@+id/btnTopCenter"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/btnTopRight"
+        app:layout_constraintTop_toTopOf="@+id/btnGetBanner" />
+
+    <Button
+        android:id="@+id/btnCenterRight"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTopRight" />
+
+    <Button
+        android:id="@+id/btnCenter"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/btnCenterRight"
+        app:layout_constraintTop_toBottomOf="@+id/btnTopCenter" />
+
+    <Button
+        android:id="@+id/btnBottomRight"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCenterRight" />
+
+    <Button
+        android:id="@+id/btnBottomCenter"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/btnBottomRight"
+        app:layout_constraintTop_toBottomOf="@+id/btnCenter" />
+
+    <Button
+        android:id="@+id/btnBottomLeft"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/btnBottomCenter"
+        app:layout_constraintTop_toBottomOf="@+id/btnCenterLeft" />
+
+    <Button
+        android:id="@+id/btnCenterLeft"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="onPositionClick"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/btnCenter"
+        app:layout_constraintTop_toBottomOf="@+id/btnTopLeft" />
+
+    <Button
+        android:id="@+id/btnDestroy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Destroy"
+        android:onClick="onDestroyClick"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGetBanner"
+        app:layout_constraintEnd_toEndOf="@+id/btnDisplayInterstitial"
+        app:layout_constraintTop_toTopOf="@+id/btnGetBanner" />
+
+    <Spinner
+        android:id="@+id/spinOrientation"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGetVASTVideo"
+        app:layout_constraintStart_toEndOf="@+id/btnGetVASTVideo"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetInterstitial"/>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetVASTVideo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtLog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:ems="10"
+                android:gravity="start|top" />
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout android:id="@+id/adbutler_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:name="com.sparklit.adbutler.BannerView"
+            android:id="@+id/adbutler_fragment"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

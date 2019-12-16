@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#d4d4d4">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/nav_btn_back"
+            android:onClick="back" />
+
+        <ImageView
+            android:id="@+id/divider_one"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/btn_back"
+            android:background="@drawable/nav_btn_divider" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/divider_one"
+            android:background="@drawable/nav_btn_refresh"
+            android:onClick="reload" />
+
+        <ImageView
+            android:id="@+id/divider_two"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/btn_refresh"
+            android:background="@drawable/nav_btn_divider" />
+
+        <Button
+            android:id="@+id/btn_forward"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/divider_two"
+            android:background="@drawable/nav_btn_forward"
+            android:onClick="forward" />
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/nav_btn_close"
+            android:onClick="close" />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </FrameLayout>
+
+</LinearLayout>

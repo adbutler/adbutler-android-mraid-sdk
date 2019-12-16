@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SDKTester</string>
+    <string-array name="orientations">
+        <item>none</item>
+        <item>portrait</item>
+        <item>landscape</item>
+    </string-array>
+</resources>
