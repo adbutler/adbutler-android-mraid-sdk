@@ -2,6 +2,7 @@ package com.example.sdktester;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.widget.FrameLayout;
 
 import com.sparklit.adbutler.AdListener;
 import com.sparklit.adbutler.AdRequest;
@@ -30,6 +31,12 @@ public class SDKConsumer {
         banner = (BannerView)fm.findFragmentById(R.id.adbutler_fragment);
         AdRequest request = new AdRequest(accountID, zoneID);
         banner.initialize(request, position, context, listener);
+    }
+
+    public void getBanner(int accountID, int zoneID, FrameLayout container, AdListener listener){
+        AdRequest request = new AdRequest(accountID, zoneID);
+        banner = new BannerView();
+        banner.initialize(request, container, context, listener);
     }
 
     public void getInterstitial(int accountID, int zoneID, AdListener listener){

@@ -38,6 +38,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
     private boolean absolutePositioned = false;
     private boolean windowIsFullscreen = false;
     private MRAIDHandler mraidHandler;
+    public boolean isWebViewProvided = false;
 
     private boolean isMRAID = false;
     private Placement placement;
@@ -97,15 +98,29 @@ class Banner implements MRAIDListener, HTTPGetListener {
     }
 
     /**
+     * Initialize the banner.  It will be displayed immediately.
+     *
+     * @param request AdRequest object containing all of the required mediation data.
+     * @param container A containing frame layout to hold the banner (not compatible with MRAID)
+     * @param context Context from which the ad is being requested.
+     * @param listener A delegate containing event functions for the ad to call.
+     */
+    public void initialize(AdRequest request, FrameLayout container, Context context, AdListener listener){
+        initWithProvidedView(request, context, listener, container);
+    }
+
+    /**
      * Destroys the banner view.
      */
     public void destroy(){
         container.removeAllViews();
         webView = null;
         webViewExpanded = null;
-        // if banner is retrieved twice too quickly.. parent can be null
-        if(container.getParent() != null) {
-            ((ViewGroup) container.getParent()).removeView(container);
+        if(!this.isWebViewProvided){
+            // if banner is retrieved twice too quickly.. parent can be null
+            if(container.getParent() != null) {
+                ((ViewGroup) container.getParent()).removeView(container);
+            }
         }
         if(mraidHandler != null){
             mraidHandler = null;
@@ -118,10 +133,21 @@ class Banner implements MRAIDListener, HTTPGetListener {
         this.fragment = fragment;
         this.container = new FrameLayout(context);
         this.listener = listener;
+        this.isWebViewProvided = false;
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(0,0);
         params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
         params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
         this.container.setLayoutParams(params);
+        int flags = ((Activity)context).getWindow().getAttributes().flags;
+        windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        new PlacementRequest(request, context, listener, getResponseListener());
+    }
+
+    private void initWithProvidedView(AdRequest request, Context context, AdListener listener, FrameLayout container){
+        this.context = context;
+        this.container = container;
+        this.listener = listener;
+        this.isWebViewProvided = true;
         int flags = ((Activity)context).getWindow().getAttributes().flags;
         windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
         new PlacementRequest(request, context, listener, getResponseListener());
@@ -197,20 +223,23 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
 
         // if we know the size, set it
-        if(placement.getWidth() != 0 && placement.getHeight() != 0){
-            defaultSize = new Size(placement.getWidth(), placement.getHeight());
-            setSize(defaultSize);
-        }else{
-            currentWebViewLayout = new FrameLayout.LayoutParams(0,0);
-            currentContainerLayout = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            reposition();
+        if(!this.isWebViewProvided){
+            if(placement.getWidth() != 0 && placement.getHeight() != 0){
+                defaultSize = new Size(placement.getWidth(), placement.getHeight());
+                setSize(defaultSize);
+            }else{
+                currentWebViewLayout = new FrameLayout.LayoutParams(0,0);
+                currentContainerLayout = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                reposition();
+            }
         }
-
         container.addView(webView);
         if(absolutePositioned){
             addToRoot();
         }else{
-            ((Activity)context).addContentView(webView, currentWebViewLayout);
+            if(!this.isWebViewProvided){
+                ((Activity)context).addContentView(webView, currentWebViewLayout);
+            }
         }
     }
 

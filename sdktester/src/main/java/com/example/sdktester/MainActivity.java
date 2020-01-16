@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetBannerClick(View v){
         if(!validateInputs(false)) return;
-        sdk.getBanner(accountID, zoneID, position, new AdListener() {
+        AdListener listener = new AdListener() {
             @Override
             public void onAdFetchSucceeded() {
                 log("onAdFetchSucceded");
@@ -157,7 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 log("onAdClicked");
                 super.onAdClicked();
             }
-        });
+        };
+        if(position != null){
+            sdk.getBanner(accountID, zoneID, position, listener);
+        }else{
+            sdk.getBanner(accountID, zoneID, (FrameLayout)findViewById(R.id.banner_container), listener);
+        }
+
     }
 
     public void onGetInterstitialClick(View v){
@@ -401,10 +408,13 @@ public class MainActivity extends AppCompatActivity {
     public void onPositionClick(View v){
         selectedPosition.setBackgroundResource(R.color.colorPrimaryDark);
         selectedPosition = (Button)v;
-        selectedPosition.setBackgroundResource(R.color.colorPrimary);
-        position = positions.get(selectedPosition);
+        if(positions.get(selectedPosition) == position){
+            position = null;
+        }else{
+            selectedPosition.setBackgroundResource(R.color.colorPrimary);
+            position = positions.get(selectedPosition);
+        }
     }
-
     private void log(String str){
         logBuilder.insert(0, "\n> " + str);
         if(logBuilder.length() > 32767){
