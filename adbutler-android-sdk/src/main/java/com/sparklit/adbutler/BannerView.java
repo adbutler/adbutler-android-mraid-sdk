@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 /**
  * The fragment extension containing a Banner.
@@ -44,7 +45,7 @@ public class BannerView extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(banner != null && banner.getMRAIDHandler() != null){
+        if(banner != null && banner.getMRAIDHandler() != null && !banner.isWebViewProvided){
             banner.addToRoot();
         }
     }
@@ -143,6 +144,26 @@ public class BannerView extends Fragment {
         }
         banner = new Banner(this);
         banner.initialize(request, position, context, listener, this);
+    }
+
+    /**
+     * Create a banner with custom data (AdRequest object).  Use if you want to specify any custom data in the ad request E.G. coppa
+     *
+     * @param request An AdRequest object, containing details required for mediation.
+     * @param container A container view to display the banner in (not compatible with MRAID)
+     * @param context The context in which to show the banner.
+     * @param listener Event listener for Ad related events.
+     */
+    public void initialize(AdRequest request, FrameLayout container, Context context, AdListener listener){
+        if(initializing){
+            return;
+        }
+        initializing = true;
+        if(banner != null){
+            banner.destroy();
+        }
+        banner = new Banner(this);
+        banner.initialize(request, container, context, listener);
     }
 
     public void destroy(){
