@@ -26,6 +26,8 @@ public class AdRequest {
     public static final int GENDER_FEMALE = 2;
     private int accountID;
     private int zoneID;
+    private int width;
+    private int height;
 
     /**
      * Creates a new {@link AdRequest}.
@@ -34,8 +36,6 @@ public class AdRequest {
         this.accountID = accountID;
         this.zoneID = zoneID;
     }
-
-    /* SETTERS */
 
     /**
      * Sets keywords for targeting purposes.
@@ -155,6 +155,42 @@ public class AdRequest {
      */
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    /**
+     * Get the mediation width.
+     *
+     * @return int
+     */
+    public int getWidth() {
+        return this.width;
+    }
+
+    /**
+     * Set the mediation width.
+     *
+     * @param width An integer representing the width of the ad you wish to retrieve
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * Get the mediation height.
+     *
+     * @return int
+     */
+    public int getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Set the mediation height.
+     *
+     * @param height An integer representing the height of the ad you wish to retrieve
+     */
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     /**

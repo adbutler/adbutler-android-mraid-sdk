@@ -102,7 +102,13 @@ public class PlacementRequest {
 
 
         // Begin request build.
-        PlacementRequestConfig.Builder requestBuilder = new PlacementRequestConfig.Builder(request.getAccountID(), request.getZoneID());
+        PlacementRequestConfig.Builder requestBuilder;
+        if(request.getWidth() > 0 && request.getHeight() > 0){
+            requestBuilder = new PlacementRequestConfig.Builder(request.getAccountID(), request.getZoneID(), request.getWidth(), request.getHeight());
+        }else{
+            requestBuilder = new PlacementRequestConfig.Builder(request.getAccountID(), request.getZoneID());
+        }
+
 
         // Proper User Agent
         requestBuilder.setUserAgent(new WebView(context).getSettings().getUserAgentString());

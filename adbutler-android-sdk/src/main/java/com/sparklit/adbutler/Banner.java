@@ -297,10 +297,17 @@ class Banner implements MRAIDListener, HTTPGetListener {
             height = defaultSize.height;
         }
 
-        builder.append("<html><head></head><body style=\"margin:0px\">");
-        builder.append("<a href=\"" + placement.getRedirectUrl() + "\" target=\"_blank\">");
-        builder.append("<img style=\"width:" + width + "; height:" + height + "\" src=\"" + imgURL + "\"/>");
-        builder.append("</a></body></html>");
+        if(isWebViewProvided){
+            // maintain aspect ratio, best fit whatever size is provided
+            builder.append("<html><head><style>html, body{height:100%;}body{background: url('" + imgURL + "') no-repeat fixed;background-size: contain;background-position: center;}</style></head>");
+            builder.append("<body style=\"margin:0\"><a href=\"" + placement.getRedirectUrl() + "\" style=\"width:100%; height:100%; display:block\"></a></body></html>");
+        }else{
+            builder.append("<html><head></head><body style=\"margin:0px\">");
+            builder.append("<a href=\"" + placement.getRedirectUrl() + "\" target=\"_blank\">");
+            builder.append("<img style=\"width:" + width + "; height:" + height + "\" src=\"" + imgURL + "\"/>");
+            builder.append("</a></body></html>");
+        }
+
         view.loadData(builder.toString(), "text/html", "UTF-8");
         initTouchListener(view);
         bannerView.initializing = false;
