@@ -11,5 +11,8 @@ interface APIService {
     Call<PlacementResponse> requestPlacement(@Path(value="configParam", encoded=true) String config);
 
     @GET
+    Call<PlacementResponse> refreshPlacement(@Url String url);
+
+    @GET
     Call<ResponseBody> requestPixel(@Url String url);
 }

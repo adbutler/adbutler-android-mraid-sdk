@@ -28,6 +28,7 @@ public class AdRequest {
     private int zoneID;
     private int width;
     private int height;
+    private Set<String> keywords;
 
     /**
      * Creates a new {@link AdRequest}.
@@ -43,7 +44,16 @@ public class AdRequest {
      * @param keywords A set of keywords to pass to mediation.
      */
     public void setKeywords(Set<String> keywords) {
-        // Normally we'd save the keywords. But since this is a sample network, we'll do nothing.
+        this.keywords = keywords;
+    }
+
+    /**
+     * Gets keywords for targeting purposes.
+     *
+     * @return set of keywords
+     */
+    public Set<String> getKeywords(){
+        return this.keywords;
     }
 
     /**
