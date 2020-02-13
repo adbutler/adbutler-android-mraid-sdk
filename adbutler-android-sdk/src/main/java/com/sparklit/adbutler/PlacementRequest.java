@@ -12,6 +12,8 @@ import java.util.Calendar;
  * If you want to get the placement directly, and create your own way of displaying them, you can do so using this object.
  */
 public class PlacementRequest {
+
+    private PlacementRequestConfig config;
     /**
      * Creates a PlacementRequest
      * @param request AdRequest object containing all required mediation data.
@@ -173,6 +175,10 @@ public class PlacementRequest {
         requestBuilder.setCarrier(networkInfo.carrierName);
         requestBuilder.setCarrierCode(networkInfo.carrierCode);
 
+        if(request.getKeywords() != null){
+            requestBuilder.setKeywords(request.getKeywords());
+        }
+
         // Compliance
         requestBuilder.setCoppa(request.getCoppa());
 
@@ -185,6 +191,11 @@ public class PlacementRequest {
         final PlacementRequestConfig config = requestBuilder.build();
 
         Log.d("Ads/AdButler", "Requesting ad from AdButler...");
+        this.config = config;
         sdk.requestPlacement(config, placementListener);
+    }
+
+    protected static void Refresh(String url, PlacementResponseListener placementListener){
+        AdButler.getInstance().refreshPlacement(url, placementListener);
     }
 }

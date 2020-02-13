@@ -27,6 +27,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A Banner ad.  Can be an MRAID or standard Image ad.
@@ -63,6 +65,11 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
     public AdListener listener = null;
     private BannerView bannerView;
+
+    private int refreshTime = 0;
+    private String refreshUrl;
+    private Timer refreshTimer;
+    private PlacementResponseListener responseListener;
 
     public Banner(BannerView bv){
         bannerView = bv;
@@ -114,6 +121,11 @@ class Banner implements MRAIDListener, HTTPGetListener {
      */
     public void destroy(){
         container.removeAllViews();
+        if(refreshTimer != null){
+            refreshTimer.cancel();
+        }
+        refreshTimer = null;
+        refreshUrl = "";
         webView = null;
         webViewExpanded = null;
         if(!this.isWebViewProvided){
@@ -140,7 +152,8 @@ class Banner implements MRAIDListener, HTTPGetListener {
         this.container.setLayoutParams(params);
         int flags = ((Activity)context).getWindow().getAttributes().flags;
         windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        new PlacementRequest(request, context, listener, getResponseListener());
+        responseListener = getResponseListener();
+        new PlacementRequest(request, context, listener, responseListener);
     }
 
     private void initWithProvidedView(AdRequest request, Context context, AdListener listener, FrameLayout container){
@@ -150,7 +163,8 @@ class Banner implements MRAIDListener, HTTPGetListener {
         this.isWebViewProvided = true;
         int flags = ((Activity)context).getWindow().getAttributes().flags;
         windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        new PlacementRequest(request, context, listener, getResponseListener());
+        responseListener = getResponseListener();
+        new PlacementRequest(request, context, listener, responseListener);
     }
 
     protected View getWebView(){
@@ -187,6 +201,26 @@ class Banner implements MRAIDListener, HTTPGetListener {
                 }
 
                 String body = placement.getBody();
+                if(placement.getRefreshTime() != null && !placement.getRefreshTime().equals("")){
+                    refreshTime = Integer.parseInt(placement.getRefreshTime());
+                    refreshUrl = placement.getRefreshUrl();
+                    if(refreshTime > 0 ){
+                        refreshTimer = new Timer();
+                        refreshTimer.schedule(new TimerTask(){
+                            @Override
+                            public void run() {
+                                refresh();
+                            }
+                        }, (long)refreshTime*1000);
+                    }
+                }else{
+                    if(refreshTimer != null){
+                        refreshTimer.cancel();
+                        refreshTime = 0;
+                        refreshUrl = "";
+                    }
+                }
+
                 if(body == null){
                     banner.listener.onAdFetchFailed(ErrorCode.NO_INVENTORY);
                     return;
@@ -208,8 +242,27 @@ class Banner implements MRAIDListener, HTTPGetListener {
         };
     }
 
+    private void refresh(){
+        //TODO
+        PlacementRequest.Refresh(refreshUrl, responseListener);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(String body){
+        if(webView != null){
+            container.removeAllViews();
+            webView = null;
+            webViewExpanded = null;
+            if(!this.isWebViewProvided){
+                // if banner is retrieved twice too quickly.. parent can be null
+                if(container.getParent() != null) {
+                    ((ViewGroup) container.getParent()).removeView(container);
+                }
+            }
+            if(mraidHandler != null){
+                mraidHandler = null;
+            }
+        }
         webView = new WebView(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(true);

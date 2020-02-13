@@ -154,6 +154,22 @@ public class AdButler {
         });
     }
 
+    protected void refreshPlacement(String url, final PlacementResponseListener listener){
+        Call<PlacementResponse> call = getAPIService().refreshPlacement(url);
+        call.enqueue(new Callback<PlacementResponse>() {
+            @Override
+            public void onResponse(Call<PlacementResponse> call, Response<PlacementResponse> response) {
+                listener.success(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PlacementResponse> call, Throwable t) {
+
+                listener.error(t);
+            }
+        });
+    }
+
     /**
      * Requests multiple placements.
      *
