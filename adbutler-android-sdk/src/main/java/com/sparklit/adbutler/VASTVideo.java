@@ -163,7 +163,7 @@ public class VASTVideo {
         };
         webViewInstance.setWebChromeClient(webChromeClient);
 
-        webViewInstance.loadDataWithBaseURL("http://servedbyadbutler.com", getVideoJSMarkup(), "text/html; charset=utf-8", "UTF-8", "");
+        webViewInstance.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), getVideoJSMarkup(), "text/html; charset=utf-8", "UTF-8", "");
     }
 
     public void startTimer(){
@@ -351,8 +351,8 @@ public class VASTVideo {
         str.append("<meta name=\"viewport\" content=\"initial-scale=1.0\" />");
         str.append("<link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\">");
         str.append("<script src=\"http://vjs.zencdn.net/4.12/video.js\"></script>");
-        str.append("<link href=\"http://servedbyadbutler.com/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
-        str.append("<script src=\"http://servedbyadbutler.com/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
+        str.append("<link href=\"http://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
+        str.append("<script src=\"http://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
         str.append("</head>");
         str.append("<body style=\"margin:0px; background-color:black\">");
         str.append("<video id=\"av_video\" class=\"video-js vjs-default-skin\" playsinline=\"true\" autoplay muted ");
@@ -363,7 +363,7 @@ public class VASTVideo {
         str.append("data-setup='{ ");
         str.append("\"plugins\": { ");
         str.append("\"vastClient\": { ");
-        str.append(String.format("\"adTagUrl\": \"http://servedbyadbutler.com/vast.spark?setID=%d&ID=%d&pid=%d\", ", this.zoneID, this.accountID, this.publisherID));
+        str.append(String.format("\"adTagUrl\": \"http://" + AdButler.getInstance().getApiHostname() + "/vast.spark?setID=%d&ID=%d&pid=%d\", ", this.zoneID, this.accountID, this.publisherID));
         str.append("\"adCancelTimeout\": 5000, ");
         str.append("\"adsEnabled\": true ");
         str.append("} ");
@@ -374,7 +374,7 @@ public class VASTVideo {
                 str.append(String.format("<source src=\"%s\" type='%s'/>", s.source, s.type));
             }
         }else{
-            str.append("<source src=\"http://servedbyadbutler.com/assets/blank.mp4\" type='video/mp4'/>");
+            str.append("<source src=\"http://" + AdButler.getInstance().getApiHostname() + "/assets/blank.mp4\" type='video/mp4'/>");
         }
         str.append("<p class=\"vjs-no-js\">");
         str.append("To view this video please enable JavaScript, and consider upgrading to a web browser that");

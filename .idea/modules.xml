@@ -7,8 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-mraid-sdk-adbutler-android-sdk.iml" filepath="$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-mraid-sdk-adbutler-android-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-sdk.iml" filepath="$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sdktester/sdktester.iml" filepath="$PROJECT_DIR$/sdktester/sdktester.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdktester/sdktester.iml" filepath="$PROJECT_DIR$/sdktester/sdktester.iml" />
     </modules>
   </component>

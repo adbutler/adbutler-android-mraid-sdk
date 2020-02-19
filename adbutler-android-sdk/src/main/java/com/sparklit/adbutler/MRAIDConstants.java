@@ -1,8 +1,6 @@
 package com.sparklit.adbutler;
 
 class MRAIDConstants{
-    public static final String MRAIDJSLocation = "http://servedbyadbutler.com/mraid.js";
-    //public static final String MRAIDJSLocation = "http://www.sparklit.com.vm.test/scratch/mraid.js";
     public static final String MRAIDVersion = "2.0";
 }
 

@@ -89,6 +89,13 @@ public class AdButler {
     }
 
     /**
+     * Get the host name
+     */
+    public String getApiHostname(){
+        return this.apiHostname;
+    }
+
+    /**
      * Set the app version.
      * @param apiAppVersion
      */
