@@ -145,7 +145,7 @@ public class InterstitialView implements MRAIDListener {
 
         initWebClient(webView);
 
-        webView.loadDataWithBaseURL("http://servedbyadbutler.com", getImageMarkup(placement), "text/html", "UTF-8", "");
+        webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), getImageMarkup(placement), "text/html", "UTF-8", "");
     }
 
     private String getImageMarkup(Placement placement){
@@ -202,7 +202,7 @@ public class InterstitialView implements MRAIDListener {
                 }
             }
         });
-        webView.loadDataWithBaseURL("http://servedbyadbutler.com", body, "text/html", "UTF-8", "");
+        webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -274,7 +274,7 @@ public class InterstitialView implements MRAIDListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.contains("servedbyadbutler.com")){
+                if(url.contains(AdButler.getInstance().getApiHostname())){
                     return false;
                 }
                 else if(url.contains("mraid://")){

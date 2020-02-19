@@ -334,7 +334,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
                 }
             }
         });
-        view.loadDataWithBaseURL("http://servedbyadbutler.com", body, "text/html", "UTF-8", "");
+        view.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
     }
 
     private void initWebViewImage(WebView view, String imgURL){
@@ -553,7 +553,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.contains("servedbyadbutler.com")){
+                if(url.contains(AdButler.getInstance().getApiHostname())){
                     return false;
                 }
                 else if(url.contains("mraid://")){

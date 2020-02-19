@@ -123,7 +123,7 @@ public class VideoPlayer extends AppCompatActivity implements HTTPGetListener {
                 webView.loadUrl(url);
             }
             else if(body != null){
-                webView.loadDataWithBaseURL("http://servedbyadbutler.com", body, "text/html; charset=utf-8", "UTF-8", "");
+                webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html; charset=utf-8", "UTF-8", "");
             }
         }else{
             if(closeButtonRequired){
@@ -271,7 +271,7 @@ public class VideoPlayer extends AppCompatActivity implements HTTPGetListener {
     @SuppressLint("ClickableViewAccessibility")
     private void displayEndCard(){
         String markup = getEndCardMarkup();
-        webView.loadDataWithBaseURL("https://servedbyadbutler.com", markup,"text/html; charset=utf-8", "UTF-8", "");
+        webView.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), markup,"text/html; charset=utf-8", "UTF-8", "");
         Iterator i = endCard.trackingEvents.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry keyVal = (Map.Entry)i.next();

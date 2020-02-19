@@ -503,7 +503,7 @@ public class AdButlerBannerView extends WebView {
 
                         // Load the data into the view.
                         Log.d("Ads/AdButler", "Loading ad markup into view.");
-                        adView.loadDataWithBaseURL("http://servedbyadbutler.com", markup, "text/html; charset=utf-8", "UTF-8", null);
+                        adView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), markup, "text/html; charset=utf-8", "UTF-8", null);
 
                         // Register successful ad fetch.
                         adView.mListener.onAdFetchSucceeded();
