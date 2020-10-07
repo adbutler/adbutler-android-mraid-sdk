@@ -39,6 +39,7 @@ public class AdButler {
     private APIService service;
 
     private static AdButler instance;
+    protected static FrequencyCappingManager frequencyCappingManager;
 
     /**
      * The AdButler object is a singleton.
@@ -51,13 +52,19 @@ public class AdButler {
         return instance;
     }
 
+    public void testFrequencyCap(){
+        frequencyCappingManager.parseResponseData("{\"placement_id\":222, \"user_frequency_views\" : 1, \"user_frequency_start\": \"now\", \"user_frequency_expiry\" : \"tomorrow\"}");
+    }
+
     /**
      * Required to be called at least once before you retrieve ads.
      * @param context
      */
     public static void initialize(Context context) {
+        Context mainContext = context.getApplicationContext();
         AdButler sdk = AdButler.getInstance();
-        sdk.init(context);
+        sdk.init(mainContext);
+        frequencyCappingManager = new FrequencyCappingManager(mainContext);
     }
 
     protected void init(Context context) {
@@ -146,6 +153,10 @@ public class AdButler {
      * @param listener the results, when ready, will be given to this given listener.
      */
     public void requestPlacement(PlacementRequestConfig config, final PlacementResponseListener listener) {
+//        PlacementRequestData data = new PlacementRequestData();
+//        data.setAccountID(config.getAccountId());
+//        data.setZoneID(config.getZoneId());
+//        data.setRatelimitingData("{'test': 'value'}");
         Call<PlacementResponse> call = getAPIService().requestPlacement(buildConfigParam(config));
         call.enqueue(new Callback<PlacementResponse>() {
             @Override
@@ -463,5 +474,10 @@ public class AdButler {
         protected void onPostExecute(Void voidValue) {
             // do nothing right now
         }
+    }
+
+    public static void destroy(){
+        // Add any last minute stuff here
+        frequencyCappingManager.writeFile();
     }
 }
