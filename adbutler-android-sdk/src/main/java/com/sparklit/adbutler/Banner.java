@@ -67,9 +67,12 @@ class Banner implements MRAIDListener, HTTPGetListener {
     private BannerView bannerView;
 
     private int refreshTime = 0;
-    private String refreshUrl;
     private Timer refreshTimer;
+    private String rcb;
+    private String rct;
+
     private PlacementResponseListener responseListener;
+    private PlacementRequest placementRequest;
 
     public Banner(BannerView bv){
         bannerView = bv;
@@ -125,7 +128,8 @@ class Banner implements MRAIDListener, HTTPGetListener {
             refreshTimer.cancel();
         }
         refreshTimer = null;
-        refreshUrl = "";
+        rct = null;
+        rcb = null;
         webView = null;
         webViewExpanded = null;
         if(!this.isWebViewProvided){
@@ -153,7 +157,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
         int flags = ((Activity)context).getWindow().getAttributes().flags;
         windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
         responseListener = getResponseListener();
-        new PlacementRequest(request, context, listener, responseListener);
+        placementRequest = new PlacementRequest(request, context, listener, responseListener);
     }
 
     private void initWithProvidedView(AdRequest request, Context context, AdListener listener, FrameLayout container){
@@ -164,7 +168,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
         int flags = ((Activity)context).getWindow().getAttributes().flags;
         windowIsFullscreen = (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
         responseListener = getResponseListener();
-        new PlacementRequest(request, context, listener, responseListener);
+        placementRequest = new PlacementRequest(request, context, listener, responseListener);
     }
 
     protected View getWebView(){
@@ -192,18 +196,22 @@ class Banner implements MRAIDListener, HTTPGetListener {
                     placement = response.getPlacements().get(0);
                 }catch(IndexOutOfBoundsException ex){
                     banner.listener.onAdFetchFailed(ErrorCode.NO_INVENTORY);
+                    bannerView.initializing = false;
                     return;
                 }
 
                 if(placement == null){
                     banner.listener.onAdFetchFailed(ErrorCode.NO_INVENTORY);
+                    bannerView.initializing = false;
                     return;
                 }
 
                 String body = placement.getBody();
                 if(placement.getRefreshTime() != null && !placement.getRefreshTime().equals("")){
                     refreshTime = Integer.parseInt(placement.getRefreshTime());
-                    refreshUrl = placement.getRefreshUrl();
+                    rcb = placement.getRcb();
+                    rct = placement.getRct();
+
                     if(refreshTime > 0 ){
                         refreshTimer = new Timer();
                         refreshTimer.schedule(new TimerTask(){
@@ -217,7 +225,8 @@ class Banner implements MRAIDListener, HTTPGetListener {
                     if(refreshTimer != null){
                         refreshTimer.cancel();
                         refreshTime = 0;
-                        refreshUrl = "";
+                        rct = "";
+                        rcb = "";
                     }
                 }
 
@@ -243,8 +252,9 @@ class Banner implements MRAIDListener, HTTPGetListener {
     }
 
     private void refresh(){
-        //TODO
-        PlacementRequest.Refresh(refreshUrl, responseListener);
+        placementRequest.config.setRct(rct);
+        placementRequest.config.setRcb(rcb);
+        AdButler.getInstance().requestPlacement(placementRequest.config, responseListener);
     }
 
     @SuppressLint("SetJavaScriptEnabled")

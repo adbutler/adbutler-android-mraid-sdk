@@ -5,7 +5,6 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 import android.webkit.WebView;
-
 import java.util.Calendar;
 
 /**
@@ -13,7 +12,7 @@ import java.util.Calendar;
  */
 public class PlacementRequest {
 
-    private PlacementRequestConfig config;
+    protected PlacementRequestConfig config;
     /**
      * Creates a PlacementRequest
      * @param request AdRequest object containing all required mediation data.
@@ -193,9 +192,5 @@ public class PlacementRequest {
         Log.d("Ads/AdButler", "Requesting ad from AdButler...");
         this.config = config;
         sdk.requestPlacement(config, placementListener);
-    }
-
-    protected static void Refresh(String url, PlacementResponseListener placementListener){
-        AdButler.getInstance().refreshPlacement(url, placementListener);
     }
 }

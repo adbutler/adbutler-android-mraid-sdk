@@ -15,9 +15,20 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +42,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AdButler {
 
     private boolean isInitialized = false;
-
     private String apiHostname = "servedbyadbutler.com";
     private String apiAppVersion = "adserve";
     private boolean personalAdsAllowed = true; // AdMob as an example assumes personal data can be sent by default, unless flagged "npa=1" in request
@@ -39,6 +49,7 @@ public class AdButler {
     private APIService service;
 
     private static AdButler instance;
+    protected static FrequencyCappingManager frequencyCappingManager;
 
     /**
      * The AdButler object is a singleton.
@@ -56,8 +67,10 @@ public class AdButler {
      * @param context
      */
     public static void initialize(Context context) {
+        Context mainContext = context.getApplicationContext();
         AdButler sdk = AdButler.getInstance();
-        sdk.init(context);
+        sdk.init(mainContext);
+        frequencyCappingManager = new FrequencyCappingManager(mainContext);
     }
 
     protected void init(Context context) {
@@ -146,26 +159,17 @@ public class AdButler {
      * @param listener the results, when ready, will be given to this given listener.
      */
     public void requestPlacement(PlacementRequestConfig config, final PlacementResponseListener listener) {
-        Call<PlacementResponse> call = getAPIService().requestPlacement(buildConfigParam(config));
+        config.setFrequencyCappingData(frequencyCappingManager.getData());
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(config);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
+        Call<PlacementResponse> call = getAPIService().requestPlacementPOST(buildConfigParamPOST(config), body);
         call.enqueue(new Callback<PlacementResponse>() {
             @Override
             public void onResponse(Call<PlacementResponse> call, Response<PlacementResponse> response) {
-                listener.success(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<PlacementResponse> call, Throwable t) {
-
-                listener.error(t);
-            }
-        });
-    }
-
-    protected void refreshPlacement(String url, final PlacementResponseListener listener){
-        Call<PlacementResponse> call = getAPIService().refreshPlacement(url);
-        call.enqueue(new Callback<PlacementResponse>() {
-            @Override
-            public void onResponse(Call<PlacementResponse> call, Response<PlacementResponse> response) {
+                if(response.body().getStatus().equals("SUCCESS")){
+                    frequencyCappingManager.parseResponseData(response.body().getPlacements().get(0));
+                }
                 listener.success(response.body());
             }
 
@@ -244,10 +248,79 @@ public class AdButler {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson));
+            if(BuildConfig.DEBUG){
+                builder.client(getUnsafeOkHttpClient().build());
+            }
             service = builder.build().create(APIService.class);
         }
 
         return service;
+    }
+
+    private static Retrofit retrofit = null;
+
+    public static OkHttpClient.Builder getUnsafeOkHttpClient() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+            return builder;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    private String buildConfigParamPOST(PlacementRequestConfig config) {
+        String urlString = "";
+        // Custom Extras
+        if (null != config.getCustomExtras() && config.getCustomExtras().size() > 0) {
+            Bundle bundle = config.getCustomExtras();
+            StringBuilder sb = new StringBuilder();
+            // process all custom extras, and
+            for (String key : bundle.keySet()) {
+                if (bundle.get(key) instanceof String) {
+                    String value = (String) bundle.get(key);
+                    sb.append(";");
+                    sb.append(key);
+                    sb.append("=");
+                    sb.append(encodeParam(value));
+                }
+            }
+            urlString += sb.toString();
+        }
+        return urlString;
     }
 
     private String buildConfigParam(PlacementRequestConfig config) {

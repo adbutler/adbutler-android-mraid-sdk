@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         AdButler.initialize(this);
     }
 
+    protected @Override void onDestroy(){
+        super.onDestroy();
+    }
+
     @Override
     protected void onResume(){
         super.onResume();
