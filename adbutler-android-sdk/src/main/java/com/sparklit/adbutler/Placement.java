@@ -1,9 +1,7 @@
 package com.sparklit.adbutler;
 
 import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
@@ -36,6 +34,18 @@ public class Placement {
     private String body;
     @SerializedName("beacons")
     private List<Beacon> beacons;
+    @SerializedName("placement_id")
+    private String placementID;
+    @SerializedName("user_frequency_views")
+    private String views;
+    @SerializedName("user_frequency_start")
+    private String start;
+    @SerializedName("user_frequency_expiry")
+    private String expiry;
+    @SerializedName("rct")
+    private String rct;
+    @SerializedName("rcb")
+    private String rcb;
 
     private boolean impressionRecorded = false;
     private boolean clickRecorded = false;
@@ -56,6 +66,9 @@ public class Placement {
      * The image banner URL.
      */
     public String getImageUrl() {
+        if (BuildConfig.DEBUG) {
+            return imageUrl.replace("https", "http");
+        }
         return imageUrl;
     }
     /**
@@ -197,6 +210,54 @@ public class Placement {
                 adButler.requestPixel(getRedirectUrl());
             }
         }
+    }
+
+    public String getPlacementID() {
+        return placementID;
+    }
+
+    public void setPlacementID(String placementID) {
+        this.placementID = placementID;
+    }
+
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
+    public String getRct() {
+        return rct;
+    }
+
+    public void setRct(String rct) {
+        this.rct = rct;
+    }
+
+    public String getRcb() {
+        return rcb;
+    }
+
+    public void setRcb(String rcb) {
+        this.rcb = rcb;
     }
 }
 

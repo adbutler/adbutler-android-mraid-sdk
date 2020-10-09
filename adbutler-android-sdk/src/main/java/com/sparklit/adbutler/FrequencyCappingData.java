@@ -1,9 +1,46 @@
 package com.sparklit.adbutler;
+import com.google.gson.annotations.SerializedName;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import java.util.Dictionary;
 public class FrequencyCappingData {
-    public Dictionary<Integer, String> placementMap;
+
+    @SerializedName("placement_id")
+    private String placementID;
+    @SerializedName("views")
+    private String views;
+    @SerializedName("start")
+    private String start;
+    @SerializedName("expiry")
+    private String expiry;
+
+    public String getPlacementID() {
+        return placementID;
+    }
+
+    public void setPlacementID(String placementID) {
+        this.placementID = placementID;
+    }
+
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
 }

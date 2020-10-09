@@ -7,8 +7,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sample/adbutler-android-mraid-sdk-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/sample/adbutler-android-mraid-sdk-sample.iml" group="adbutler-android-mraid-sdk/sample" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdktester/adbutler-android-mraid-sdk-sdktester.iml" filepath="$PROJECT_DIR$/.idea/modules/sdktester/adbutler-android-mraid-sdk-sdktester.iml" group="adbutler-android-mraid-sdk/sdktester" />
       <module fileurl="file://$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-sdk.iml" filepath="$PROJECT_DIR$/adbutler-android-sdk/adbutler-android-sdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sdktester/sdktester.iml" filepath="$PROJECT_DIR$/sdktester/sdktester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/live-sdks-adbutler-android-mraid-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/live-sdks-adbutler-android-mraid-sdk.iml" group="adbutler-android-mraid-sdk" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adbutler-android-sdk/live-sdks-adbutler-android-mraid-sdk-adbutler-android-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/adbutler-android-sdk/live-sdks-adbutler-android-mraid-sdk-adbutler-android-sdk.iml" group="adbutler-android-mraid-sdk/adbutler-android-sdk" />
+      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" group="adbutler-android-mraid-sdk/sample" />
+      <module fileurl="file://$PROJECT_DIR$/sdktester/sdktester.iml" filepath="$PROJECT_DIR$/sdktester/sdktester.iml" group="adbutler-android-mraid-sdk/sdktester" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparklit-adbutler-android-mraid-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/sparklit-adbutler-android-mraid-sdk.iml" group="adbutler-android-mraid-sdk" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/adbutler-android-sdk/sparklit-adbutler-android-mraid-sdk-adbutler-android-sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/adbutler-android-sdk/sparklit-adbutler-android-mraid-sdk-adbutler-android-sdk.iml" group="adbutler-android-mraid-sdk/adbutler-android-sdk" />
     </modules>
