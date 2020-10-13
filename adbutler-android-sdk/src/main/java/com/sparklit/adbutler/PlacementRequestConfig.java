@@ -2,6 +2,8 @@ package com.sparklit.adbutler;
 
 import android.os.Bundle;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,41 +11,82 @@ import java.util.Set;
  * Configurations for requesting a Placement.
  */
 class PlacementRequestConfig {
+    @SerializedName("ID")
     private int accountId;
+    @SerializedName("setID")
     private int zoneId;
+    @SerializedName("width")
     private int width;
+    @SerializedName("height")
     private int height;
+    @SerializedName("kw")
     private Set<String> keywords;
+    @SerializedName("click")
     private String click;
+    @SerializedName("aduid")
     private String advertisingId;
+    @SerializedName("dnt")
     private int doNotTrack;
+    @SerializedName("age")
     private int age;
+    @SerializedName("yob")
     private int yearOfBirth;
+    @SerializedName("gender")
     private String gender;
+    @SerializedName("coppa")
     private int coppa;
+    @SerializedName("carrier")
     private String carrier;
+    @SerializedName("carriercode")
     private String carrierCode;
+    @SerializedName("network")
     private String networkClass;
+    @SerializedName("carriercountry")
     private String carrierCountryIso;
+    @SerializedName("ip")
     private String ip;
+    @SerializedName("lat")
     private Double latitude;
+    @SerializedName("long")
     private Double longitude;
+    @SerializedName("dvmake")
     private String deviceManufacturer;
+    @SerializedName("dvmodel")
     private String deviceModel;
+    @SerializedName("dvtype")
     private String deviceType;
+    @SerializedName("os")
     private String osName;
+    @SerializedName("osv")
     private String osVersion;
+    @SerializedName("lang")
     private String language;
+    @SerializedName("sw")
     private int screenWidth;
+    @SerializedName("sh")
     private int screenHeight;
+    @SerializedName("spr")
     private float screenPixelDensity;
+    @SerializedName("sdpi")
     private double screenDotsPerInch;
+    @SerializedName("ua")
     private String userAgent;
+    @SerializedName("appname")
     private String appName;
+    @SerializedName("appcode")
     private String appPackageName;
+    @SerializedName("appversion")
     private String appVersion;
-    private Bundle customExtras;
+    @SerializedName("type")
+    private String type = "json";
+    @SerializedName("user_freq")
+    private Set<FrequencyCappingData> frequencyCappingData;
+    @SerializedName("rct")
+    private String rct;
+    @SerializedName("rcb")
+    private String rcb;
 
+    private Bundle customExtras;
 
     /**
      * The account ID for this request.
@@ -198,6 +241,30 @@ class PlacementRequestConfig {
 
     public Bundle getCustomExtras() {
         return customExtras;
+    }
+
+    public Set<FrequencyCappingData> getFrequencyCappingData() {
+        return frequencyCappingData;
+    }
+
+    public void setFrequencyCappingData(Set<FrequencyCappingData> frequencyCappingData) {
+        this.frequencyCappingData = frequencyCappingData;
+    }
+
+    public String getRct() {
+        return rct;
+    }
+
+    public void setRct(String rct) {
+        this.rct = rct;
+    }
+
+    public String getRcb() {
+        return rcb;
+    }
+
+    public void setRcb(String rcb) {
+        this.rcb = rcb;
     }
 
 
