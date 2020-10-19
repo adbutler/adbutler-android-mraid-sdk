@@ -167,10 +167,14 @@ public class AdButler {
         call.enqueue(new Callback<PlacementResponse>() {
             @Override
             public void onResponse(Call<PlacementResponse> call, Response<PlacementResponse> response) {
-                if(response.body().getStatus().equals("SUCCESS")){
-                    frequencyCappingManager.parseResponseData(response.body().getPlacements().get(0));
+                if(Integer.parseInt(Integer.toString(response.code()).substring(0, 1)) == 5){
+                    listener.error(new Throwable("Server Error"));
+                }else {
+                    if (response.body().getStatus().equals("SUCCESS")) {
+                        frequencyCappingManager.parseResponseData(response.body().getPlacements().get(0));
+                    }
+                    listener.success(response.body());
                 }
-                listener.success(response.body());
             }
 
             @Override
@@ -248,9 +252,9 @@ public class AdButler {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson));
-            if(BuildConfig.DEBUG){
-                builder.client(getUnsafeOkHttpClient().build());
-            }
+//            if(BuildConfig.DEBUG){
+//                builder.client(getUnsafeOkHttpClient().build());
+//            }
             service = builder.build().create(APIService.class);
         }
 
