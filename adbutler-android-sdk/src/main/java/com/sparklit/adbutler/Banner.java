@@ -232,6 +232,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
                 if(body == null){
                     banner.listener.onAdFetchFailed(ErrorCode.NO_INVENTORY);
+                    bannerView.initializing = false;
                     return;
                 }
 
@@ -247,6 +248,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
             @Override
             public void error(Throwable throwable) {
                 listener.onAdFetchFailed(ErrorCode.NO_INVENTORY);
+                bannerView.initializing = false;
             }
         };
     }
