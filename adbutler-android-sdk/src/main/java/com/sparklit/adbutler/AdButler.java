@@ -41,6 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class AdButler {
 
+    static final String VERSION_NAME = "2.0.0";
     private boolean isInitialized = false;
     private String apiHostname = "servedbyadbutler.com";
     private String apiAppVersion = "adserve";
@@ -80,7 +81,7 @@ public class AdButler {
         }
         isInitialized = true;
 
-        Log.d("Ads/AdButler", "Initializing AdButler SDK v" + BuildConfig.VERSION_NAME);
+        Log.d("Ads/AdButler", "Initializing AdButler SDK v" + AdButler.VERSION_NAME);
 
         if (null == context) {
             throw new IllegalArgumentException("Context cannot be null.");
@@ -324,6 +325,22 @@ public class AdButler {
             }
             urlString += sb.toString();
         }
+        if (null != config.getDataKeys() && config.getDataKeys().size() > 0) {
+            Bundle bundle = config.getDataKeys();
+            StringBuilder sb = new StringBuilder();
+            // process all custom extras, and
+            for (String key : bundle.keySet()) {
+                if (bundle.get(key) instanceof String) {
+                    String value = (String) bundle.get(key);
+                    sb.append(";_abdk[");
+                    sb.append(key);
+                    sb.append("]=");
+                    sb.append(encodeParam(value));
+                }
+            }
+            urlString += sb.toString();
+        }
+
         return urlString;
     }
 
@@ -336,7 +353,7 @@ public class AdButler {
 
         urlString += ";type=json";
 
-        urlString += ";apiv=" + BuildConfig.VERSION_NAME;
+        urlString += ";apiv=" + AdButler.VERSION_NAME;
 
         if (config.getKeywords() != null && config.getKeywords().size() > 0) {
             String keywordsQuery = null;
@@ -466,6 +483,23 @@ public class AdButler {
             }
             urlString += sb.toString();
         }
+
+        if (null != config.getDataKeys() && config.getDataKeys().size() > 0) {
+            Bundle bundle = config.getDataKeys();
+            StringBuilder sb = new StringBuilder();
+            // process all custom extras, and
+            for (String key : bundle.keySet()) {
+                if (bundle.get(key) instanceof String) {
+                    String value = (String) bundle.get(key);
+                    sb.append(";_abdk[");
+                    sb.append(key);
+                    sb.append("]=");
+                    sb.append(encodeParam(value));
+                }
+            }
+            urlString += sb.toString();
+        }
+
 
         // Click handled last
         if (config.getClick() != null) {

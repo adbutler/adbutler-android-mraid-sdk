@@ -21,7 +21,7 @@ public class PlacementRequest {
      * @param placementListener A delegate overriding the success or failure methods of the request.
      */
     public PlacementRequest(AdRequest request, Context context, AdListener listener, PlacementResponseListener placementListener){
-        Log.d("Ads/AdButler", "AdButler AdMob SDK v" + BuildConfig.VERSION_NAME + " - Beginning Ad Fetch");
+        Log.d("Ads/AdButler", "AdButler AdMob SDK v" + AdButler.VERSION_NAME + " - Beginning Ad Fetch");
 
         // Permit Chrome Debugging if >KITKAT
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -176,6 +176,10 @@ public class PlacementRequest {
 
         if(request.getKeywords() != null){
             requestBuilder.setKeywords(request.getKeywords());
+        }
+
+        if(null != request.getDataKeys()){
+            requestBuilder.setDataKeys(request.getDataKeys());
         }
 
         // Compliance
