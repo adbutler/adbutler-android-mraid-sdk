@@ -87,6 +87,7 @@ class PlacementRequestConfig {
     private String rcb;
 
     private Bundle customExtras;
+    private Bundle dataKeys;
 
     /**
      * The account ID for this request.
@@ -267,6 +268,9 @@ class PlacementRequestConfig {
         this.rcb = rcb;
     }
 
+    public Bundle getDataKeys() {
+        return dataKeys;
+    }
 
     /**
      * Builder to configure the parameters used in requesting a Placement.
@@ -306,6 +310,7 @@ class PlacementRequestConfig {
         private String appPackageName;
         private String appVersion;
         private Bundle customExtras;
+        private Bundle dataKeys;
 
         /**
          * @param accountId The account ID for this request.
@@ -505,6 +510,11 @@ class PlacementRequestConfig {
             return this;
         }
 
+        public Builder setDataKeys(Bundle dataKeys) {
+            this.dataKeys = dataKeys;
+            return this;
+        }
+
         /**
          * @return The PlacementRequestConfig that can be used in requesting a Placement.
          */
@@ -548,5 +558,6 @@ class PlacementRequestConfig {
         appPackageName = builder.appPackageName;
         appVersion = builder.appVersion;
         customExtras = builder.customExtras;
+        dataKeys = builder.dataKeys;
     }
 }

@@ -132,7 +132,7 @@ public class AdButlerBannerView extends WebView {
     public void fetchAd(AdRequest request) {
 
 
-        Log.d("Ads/AdButler", "AdButler AdMob SDK v" + BuildConfig.VERSION_NAME + " - Beginning Ad Fetch");
+        Log.d("Ads/AdButler", "AdButler AdMob SDK v" + AdButler.VERSION_NAME + " - Beginning Ad Fetch");
 
         // Permit Chrome Debugging if >KITKAT
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

@@ -29,6 +29,7 @@ public class AdRequest {
     private int width;
     private int height;
     private Set<String> keywords;
+    private Bundle dataKeys;
 
     /**
      * Creates a new {@link AdRequest}.
@@ -57,6 +58,27 @@ public class AdRequest {
     }
 
     /**
+    *  Sets data keys for advanced targeting purposes.
+    *
+    * @param dataKeys A bundle of string value pairs to pass to mediation.
+    */
+    public void setDataKeys(Bundle dataKeys) {
+        this.dataKeys = dataKeys;
+    }
+
+    /**
+     * Gets data keys for advanced targeting purposes.
+     *
+     * @return bundle of data keys
+     */
+    public Bundle getDataKeys(){
+        return this.dataKeys;
+    }
+
+    /**
+
+
+     /**
      * Designates a request for test mode.
      *
      * @param useTesting {@code true} to enable test mode.

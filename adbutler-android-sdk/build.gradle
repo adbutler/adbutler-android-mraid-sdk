@@ -1,20 +1,13 @@
 apply plugin: 'com.android.library'
 
-def versionMajor = 2
-def versionMinor = 0
-def versionPatch = 0
-
-def numericVersionCode = 8
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode numericVersionCode
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 2
+        versionName "2.0.0"
     }
 
     buildTypes {
