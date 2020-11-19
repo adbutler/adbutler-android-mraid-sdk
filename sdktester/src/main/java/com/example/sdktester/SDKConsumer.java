@@ -2,6 +2,7 @@ package com.example.sdktester;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.sparklit.adbutler.AdListener;
@@ -30,6 +31,10 @@ public class SDKConsumer {
         FragmentManager fm = context.getFragmentManager();
         banner = (BannerView)fm.findFragmentById(R.id.adbutler_fragment);
         AdRequest request = new AdRequest(accountID, zoneID);
+        Bundle dataKeys = new Bundle();
+        dataKeys.putInt("number", 1);
+        dataKeys.putStringArray("string", new String[]{"test", "test2"});
+        request.setDataKeys(dataKeys);
         banner.initialize(request, position, context, listener);
     }
 

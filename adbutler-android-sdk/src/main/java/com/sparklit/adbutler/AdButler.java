@@ -124,7 +124,7 @@ public class AdButler {
     public static void setPersonalAdsAllowed(boolean allowed){ getInstance().personalAdsAllowed = allowed; }
 
     /**
-     * Used to determin if personal data can be sent to mediation.
+     * Used to determine if personal data can be sent to mediation.
      * @return
      */
     public static boolean isPersonalAdsAllowed(){ return getInstance().personalAdsAllowed; }
@@ -141,14 +141,12 @@ public class AdButler {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("Ads/AdButler", "Pixel Request [success=" + response.isSuccessful() + "]: " + _url);
-                // :)
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("Ads/AdButler", "Pixel Request [success=false]: " + _url);
                 t.printStackTrace();
-                // :)
             }
         });
     }
@@ -180,7 +178,6 @@ public class AdButler {
 
             @Override
             public void onFailure(Call<PlacementResponse> call, Throwable t) {
-
                 listener.error(t);
             }
         });
@@ -320,21 +317,6 @@ public class AdButler {
                     sb.append(";");
                     sb.append(key);
                     sb.append("=");
-                    sb.append(encodeParam(value));
-                }
-            }
-            urlString += sb.toString();
-        }
-        if (null != config.getDataKeys() && config.getDataKeys().size() > 0) {
-            Bundle bundle = config.getDataKeys();
-            StringBuilder sb = new StringBuilder();
-            // process all custom extras, and
-            for (String key : bundle.keySet()) {
-                if (bundle.get(key) instanceof String) {
-                    String value = (String) bundle.get(key);
-                    sb.append(";_abdk[");
-                    sb.append(key);
-                    sb.append("]=");
                     sb.append(encodeParam(value));
                 }
             }
