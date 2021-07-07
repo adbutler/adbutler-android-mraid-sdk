@@ -145,7 +145,7 @@ public class InterstitialView implements MRAIDListener {
 
         initWebClient(webView);
 
-        webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), getImageMarkup(placement), "text/html", "UTF-8", "");
+        webView.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), getImageMarkup(placement), "text/html", "UTF-8", "");
     }
 
     private String getImageMarkup(Placement placement){
@@ -202,7 +202,7 @@ public class InterstitialView implements MRAIDListener {
                 }
             }
         });
-        webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
+        webView.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -346,6 +346,10 @@ public class InterstitialView implements MRAIDListener {
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                if(BuildConfig.DEBUG) {
+                    handler.proceed();
+                    return;
+                }
                 Log.d("Ads/AdButler", "onReceivedSslError: " + error.getUrl());
                 Log.d("Ads/AdButler", "onReceivedSslError Status: " + error.getPrimaryError());
                 super.onReceivedSslError(view, handler, error);

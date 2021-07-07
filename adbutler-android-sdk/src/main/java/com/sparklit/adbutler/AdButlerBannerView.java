@@ -495,6 +495,10 @@ public class AdButlerBannerView extends WebView {
 
                             @Override
                             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                                if(BuildConfig.DEBUG) {
+                                    handler.proceed();
+                                    return;
+                                }
                                 Log.d("Ads/AdButler", "onReceivedSslError: " + error.getUrl());
                                 Log.d("Ads/AdButler", "onReceivedSslError Status: " + error.getPrimaryError());
                                 super.onReceivedSslError(view, handler, error);
@@ -503,7 +507,7 @@ public class AdButlerBannerView extends WebView {
 
                         // Load the data into the view.
                         Log.d("Ads/AdButler", "Loading ad markup into view.");
-                        adView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), markup, "text/html; charset=utf-8", "UTF-8", null);
+                        adView.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), markup, "text/html; charset=utf-8", "UTF-8", null);
 
                         // Register successful ad fetch.
                         adView.mListener.onAdFetchSucceeded();

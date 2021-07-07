@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
+import android.net.http.SslError;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -161,9 +163,9 @@ public class VASTVideo {
 
             }
         };
-        webViewInstance.setWebChromeClient(webChromeClient);
 
-        webViewInstance.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), getVideoJSMarkup(), "text/html; charset=utf-8", "UTF-8", "");
+        webViewInstance.setWebChromeClient(webChromeClient);
+        webViewInstance.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), getVideoJSMarkup(), "text/html; charset=utf-8", "UTF-8", "");
     }
 
     public void startTimer(){
@@ -234,6 +236,15 @@ public class VASTVideo {
 
     private class InsideWebViewClient extends WebViewClient {
         @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            if(BuildConfig.DEBUG) {
+                handler.proceed();
+                return;
+            }
+            super.onReceivedSslError(view, handler, error);
+        }
+
+        @Override
         // Force links to be opened inside WebView and not in Default Browser
         // Thanks http://stackoverflow.com/a/33681975/1815624
 
@@ -276,7 +287,9 @@ public class VASTVideo {
                 case "TrackingEvents":
                     NodeList events = n.getChildNodes();
                     for(int c = 0; c < events.getLength(); c++){
-                        endCard.trackingEvents.put(events.item(c).getAttributes().getNamedItem("event").getNodeValue(), events.item(c).getFirstChild().getNodeValue());
+                        if(events.item(c).getLocalName() == "Tracking") { // sometimes whitespace would be treated as a node
+                            endCard.trackingEvents.put(events.item(c).getAttributes().getNamedItem("event").getNodeValue(), events.item(c).getFirstChild().getNodeValue());
+                        }
                     }
                     break;
                 case "CompanionClickThrough":
@@ -349,10 +362,11 @@ public class VASTVideo {
         str.append("<html>");
         str.append("<head>");
         str.append("<meta name=\"viewport\" content=\"initial-scale=1.0\" />");
-        str.append("<link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\">");
-        str.append("<script src=\"http://vjs.zencdn.net/4.12/video.js\"></script>");
-        str.append("<link href=\"http://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
-        str.append("<script src=\"http://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
+        str.append("<link href=\"https://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\">");
+//        str.append("<script src=\"https://vjs.zencdn.net/4.12/video.js\"></script>");
+        str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/video.js\"></script>");
+        str.append("<link href=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
+        str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
         str.append("</head>");
         str.append("<body style=\"margin:0px; background-color:black\">");
         str.append("<video id=\"av_video\" class=\"video-js vjs-default-skin\" playsinline=\"true\" autoplay muted ");
@@ -363,7 +377,7 @@ public class VASTVideo {
         str.append("data-setup='{ ");
         str.append("\"plugins\": { ");
         str.append("\"vastClient\": { ");
-        str.append(String.format("\"adTagUrl\": \"http://" + AdButler.getInstance().getApiHostname() + "/vast.spark?setID=%d&ID=%d&pid=%d\", ", this.zoneID, this.accountID, this.publisherID));
+        str.append(String.format("\"adTagUrl\": \"https://" + AdButler.getInstance().getApiHostname() + "/vast.spark?setID=%d&ID=%d&pid=%d\", ", this.zoneID, this.accountID, this.publisherID));
         str.append("\"adCancelTimeout\": 5000, ");
         str.append("\"adsEnabled\": true ");
         str.append("} ");
@@ -374,11 +388,11 @@ public class VASTVideo {
                 str.append(String.format("<source src=\"%s\" type='%s'/>", s.source, s.type));
             }
         }else{
-            str.append("<source src=\"http://" + AdButler.getInstance().getApiHostname() + "/assets/blank.mp4\" type='video/mp4'/>");
+            str.append("<source src=\"https://" + AdButler.getInstance().getApiHostname() + "/assets/blank.mp4\" type='video/mp4'/>");
         }
         str.append("<p class=\"vjs-no-js\">");
         str.append("To view this video please enable JavaScript, and consider upgrading to a web browser that");
-        str.append("<a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>");
+        str.append("<a href=\"https://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>");
         str.append("</p>");
         str.append("</video>");
         str.append("</body>");

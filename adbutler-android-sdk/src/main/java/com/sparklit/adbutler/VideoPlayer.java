@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.Rect;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -123,7 +125,7 @@ public class VideoPlayer extends AppCompatActivity implements HTTPGetListener {
                 webView.loadUrl(url);
             }
             else if(body != null){
-                webView.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html; charset=utf-8", "UTF-8", "");
+                webView.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), body, "text/html; charset=utf-8", "UTF-8", "");
             }
         }else{
             if(closeButtonRequired){
@@ -151,6 +153,15 @@ public class VideoPlayer extends AppCompatActivity implements HTTPGetListener {
                 view.loadUrl(url);
             }
             return true;
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            if(BuildConfig.DEBUG) {
+                handler.proceed();
+                return;
+            }
+            super.onReceivedSslError(view, handler, error);
         }
     }
 
