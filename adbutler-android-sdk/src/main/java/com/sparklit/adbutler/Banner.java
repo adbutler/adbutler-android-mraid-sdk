@@ -346,7 +346,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
                 }
             }
         });
-        view.loadDataWithBaseURL("http://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
+        view.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), body, "text/html", "UTF-8", "");
     }
 
     private void initWebViewImage(WebView view, String imgURL){
@@ -640,6 +640,10 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                if(BuildConfig.DEBUG) {
+                    handler.proceed();
+                    return;
+                }
                 Log.d("Ads/AdButler", "onReceivedSslError: " + error.getUrl());
                 Log.d("Ads/AdButler", "onReceivedSslError Status: " + error.getPrimaryError());
                 super.onReceivedSslError(view, handler, error);

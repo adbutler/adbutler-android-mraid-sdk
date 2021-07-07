@@ -250,9 +250,9 @@ public class AdButler {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson));
-//            if(BuildConfig.DEBUG){
-//                builder.client(getUnsafeOkHttpClient().build());
-//            }
+            if(BuildConfig.DEBUG){
+                builder.client(getUnsafeOkHttpClient().build());
+            }
             service = builder.build().create(APIService.class);
         }
 

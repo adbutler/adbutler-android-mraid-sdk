@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
+import android.net.http.SslError;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -161,8 +163,8 @@ public class VASTVideo {
 
             }
         };
-        webViewInstance.setWebChromeClient(webChromeClient);
 
+        webViewInstance.setWebChromeClient(webChromeClient);
         webViewInstance.loadDataWithBaseURL("https://" + AdButler.getInstance().getApiHostname(), getVideoJSMarkup(), "text/html; charset=utf-8", "UTF-8", "");
     }
 
@@ -234,6 +236,15 @@ public class VASTVideo {
 
     private class InsideWebViewClient extends WebViewClient {
         @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            if(BuildConfig.DEBUG) {
+                handler.proceed();
+                return;
+            }
+            super.onReceivedSslError(view, handler, error);
+        }
+
+        @Override
         // Force links to be opened inside WebView and not in Default Browser
         // Thanks http://stackoverflow.com/a/33681975/1815624
 
@@ -276,7 +287,9 @@ public class VASTVideo {
                 case "TrackingEvents":
                     NodeList events = n.getChildNodes();
                     for(int c = 0; c < events.getLength(); c++){
-                        endCard.trackingEvents.put(events.item(c).getAttributes().getNamedItem("event").getNodeValue(), events.item(c).getFirstChild().getNodeValue());
+                        if(events.item(c).getLocalName() == "Tracking") { // sometimes whitespace would be treated as a node
+                            endCard.trackingEvents.put(events.item(c).getAttributes().getNamedItem("event").getNodeValue(), events.item(c).getFirstChild().getNodeValue());
+                        }
                     }
                     break;
                 case "CompanionClickThrough":
@@ -350,7 +363,8 @@ public class VASTVideo {
         str.append("<head>");
         str.append("<meta name=\"viewport\" content=\"initial-scale=1.0\" />");
         str.append("<link href=\"https://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\">");
-        str.append("<script src=\"https://vjs.zencdn.net/4.12/video.js\"></script>");
+//        str.append("<script src=\"https://vjs.zencdn.net/4.12/video.js\"></script>");
+        str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/video.js\"></script>");
         str.append("<link href=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
         str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
         str.append("</head>");

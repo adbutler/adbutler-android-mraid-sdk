@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 class MRAIDUtilities {
     public static String replaceMRAIDScript(String htmlBody){
         String pattern = "<script\\s+[^>]*\\bsrc\\s*=\\s*\\\\?([\\\\\"\\\\'])mraid\\.js\\\\?\\1[^>]*>[^<]*<\\/script>\\n*";
-        return htmlBody.replaceAll(pattern, "<script src=\"http://" + AdButler.getInstance().getApiHostname() + "/mraid.js?v=" + new Date().getTime() + "\"></script>");
+        return htmlBody.replaceAll(pattern, "<script src=\"https://" + AdButler.getInstance().getApiHostname() + "/mraid.js?v=" + new Date().getTime() + "\"></script>");
     }
 
     public static String validateHTMLStructure(String htmlBody){

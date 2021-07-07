@@ -460,6 +460,10 @@ public class AdButlerInterstitialView extends WebView {
 
                         @Override
                         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                            if(BuildConfig.DEBUG) {
+                                handler.proceed();
+                                return;
+                            }
                             Log.d("Ads/AdButler", "onReceivedSslError: " + error.getUrl());
                             Log.d("Ads/AdButler", "onReceivedSslError Status: " + error.getPrimaryError());
                             super.onReceivedSslError(view, handler, error);
