@@ -263,7 +263,6 @@ public class VASTVideo {
                 handleEvent(url);
                 return false;
             } else {
-                System.out.println("URL REACHED =====  " + url);
                 view.loadUrl(url);
             }
             return true;
@@ -366,7 +365,7 @@ public class VASTVideo {
 //        str.append("<script src=\"https://vjs.zencdn.net/4.12/video.js\"></script>");
         str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/video.js\"></script>");
         str.append("<link href=\"https://" + AdButler.getInstance().getApiHostname() + "/videojs-vast-vpaid/bin/videojs.vast.vpaid.min.css\" rel=\"stylesheet\">");
-        str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=12\"></script>");
+        str.append("<script src=\"https://" + AdButler.getInstance().getApiHostname() +"/videojs-vast-vpaid/bin/videojs_4.vast.vpaid.js?v=15\"></script>");
         str.append("</head>");
         str.append("<body style=\"margin:0px; background-color:black\">");
         str.append("<video id=\"av_video\" class=\"video-js vjs-default-skin\" playsinline=\"true\" autoplay muted ");
