@@ -356,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroyClick(View v){
         sdk.destroyBanner();
         btnDestroy.setVisibility(View.INVISIBLE);
+        AdButler.resetUniqueDelivery();
     }
 
     private Boolean validateInputs(Boolean includePublisher){

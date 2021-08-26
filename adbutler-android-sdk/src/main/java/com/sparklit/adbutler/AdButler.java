@@ -17,7 +17,9 @@ import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -52,6 +54,9 @@ public class AdButler {
     private static AdButler instance;
     protected static FrequencyCappingManager frequencyCappingManager;
 
+    private static int pageID = 0;
+    private static HashMap<Integer, Integer> zonePlaceMap;
+
     /**
      * The AdButler object is a singleton.
      * @return AdButler
@@ -71,6 +76,7 @@ public class AdButler {
         Context mainContext = context.getApplicationContext();
         AdButler sdk = AdButler.getInstance();
         sdk.init(mainContext);
+        resetUniqueDelivery();
         frequencyCappingManager = new FrequencyCappingManager(mainContext);
     }
 
@@ -128,6 +134,32 @@ public class AdButler {
      * @return
      */
     public static boolean isPersonalAdsAllowed(){ return getInstance().personalAdsAllowed; }
+
+    public static void incrementUniqueDelivery(int zoneID) {
+        if(zonePlaceMap.get(zoneID) != null) {
+            zonePlaceMap.put(zoneID, zonePlaceMap.get(zoneID) + 1);
+        } else {
+            zonePlaceMap.put(zoneID, 0);
+        }
+    }
+
+    public static void resetUniqueDelivery() {
+        int m = (int) Math.pow(10, 7 - 1);
+        pageID = m + new Random().nextInt(9 * m);
+        zonePlaceMap = new HashMap<>();
+    }
+
+    public static int getPage() {
+        return pageID;
+    }
+
+    public static int getPlace(int zoneId) {
+        Integer place = zonePlaceMap.get(zoneId);
+        if(place != null) {
+            return place;
+        }
+        return 0;
+    }
 
     /**
      * Requests a pixel.
