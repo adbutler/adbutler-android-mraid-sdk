@@ -89,6 +89,10 @@ class PlacementRequestConfig {
     private String rct;
     @SerializedName("rcb")
     private String rcb;
+    @SerializedName("pid")
+    private int pid;
+    @SerializedName("place")
+    private int place;
 
     private Bundle customExtras;
 
@@ -280,6 +284,14 @@ class PlacementRequestConfig {
         return dataKeys;
     }
 
+    public int getPid() { return pid; }
+
+    public void setPid(int pid) { this.pid = pid; }
+
+    public int getPlace() { return place; }
+
+    public void setPlace(int place) { this.place = place; }
+
     /**
      * Builder to configure the parameters used in requesting a Placement.
      */
@@ -319,6 +331,8 @@ class PlacementRequestConfig {
         private String appVersion;
         private Bundle customExtras;
         private Bundle dataKeys;
+        private int pid;
+        private int place;
 
         /**
          * @param accountId The account ID for this request.
@@ -331,6 +345,9 @@ class PlacementRequestConfig {
             this.zoneId = zoneId;
             this.width = width;
             this.height = height;
+            AdButler.incrementUniqueDelivery(zoneId);
+            this.pid = AdButler.getPage();
+            this.place = AdButler.getPlace(zoneId);
         }
 
         /**
@@ -340,6 +357,9 @@ class PlacementRequestConfig {
         public Builder(int accountId, int zoneId) {
             this.accountId = accountId;
             this.zoneId = zoneId;
+            AdButler.incrementUniqueDelivery(zoneId);
+            this.pid = AdButler.getPage();
+            this.place = AdButler.getPlace(zoneId);
         }
 
 
@@ -567,6 +587,8 @@ class PlacementRequestConfig {
         appVersion = builder.appVersion;
         customExtras = builder.customExtras;
         dataKeys = builder.dataKeys;
+        place = builder.place;
+        pid = builder.pid;
         if(dataKeys != null && !dataKeys.isEmpty()){
             Gson b = new GsonBuilder().create();
             String temp = b.toJson(dataKeys);

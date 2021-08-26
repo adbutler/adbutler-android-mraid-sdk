@@ -142,6 +142,7 @@ class Banner implements MRAIDListener, HTTPGetListener {
             mraidHandler = null;
         }
         container = null;
+        bannerView.initializing = false;
     }
 
     private void initCommon(AdRequest request, Context context, AdListener listener, Fragment fragment){
@@ -261,6 +262,9 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(String body){
+        if(container == null) {
+            return;
+        }
         if(webView != null){
             container.removeAllViews();
             webView = null;
@@ -429,6 +433,9 @@ class Banner implements MRAIDListener, HTTPGetListener {
 
 
     protected void setSize(Size rect){
+        if(container == null || webView == null) {
+            return;
+        }
         // set layout parameters
         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rect.width, context.getResources().getDisplayMetrics());
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rect.height, context.getResources().getDisplayMetrics());
