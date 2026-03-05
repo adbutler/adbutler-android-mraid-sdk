@@ -1,3 +1,8 @@
+> [!WARNING]
+> **This repository is deprecated and no longer maintained.**
+> It may not be compatible with current software versions and is not recommended for direct use in production environments.
+> This repository is provided as-is and should be used as a guideline for custom integrations only.
+
 # adbutler-android-mraid-sdk
 
 This SDK will help you include AdButler ad items in your app.  It supports Image Banners, Interstitials, VAST/VPAID and MRAID 2.0 ads.
